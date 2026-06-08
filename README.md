@@ -1,15 +1,15 @@
-# Contribution [#]: [Issue Title]
+# Contribution #302: Adapter: xAI Grok Model Provider
 
 **Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Student:** Kyle Shi 
+**Issue:** [Link](https://github.com/orthogonalhq/nous-core/issues/302)
+**Status:** Phase I Complete
 
 ---
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+I chose this issue because I want to understand and work on AI model integration within a broader agent host. I have experience working with local AI models, but I haven't connected an application to external, hosted AI models yet. By contributing to this project, I hope to learn how to bridge these external connections while keeping the architecture as abstract and provider-agnostic as possible. Additionally, since this open-source project aligns perfectly with my current tech stack (TypeScript/JavaScript), it allows me to focus fully on learning these integration patterns without the added friction of learning a new language for my first contribution.
 
 ---
 
@@ -17,19 +17,23 @@
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+An adaptor is needed to parse user data into nous-core data shape and ultimtely into xAi api shape needed to evaluate the prompt. The end product is to build an adaptor that handles invoke, stream, and getConfig.
+
+An adapter is needed to parse user input into the nous-core unified data shape and ultimately translate it into the xAI API schema required to evaluate prompts. The final deliverable is a dedicated model provider adapter that implements the core IModelProvider interface, handling invoke, stream, and getConfig. 
 
 ### Expected Behavior
 
-[What should happen?]
+User Input -> nous-code data shape -> Zod Schema Validation -> xAi Payload mapping -> secured fetch-> stream data as chunks and parsing -> returning final response
 
 ### Current Behavior
 
-[What actually happens?]
+User Input -> nous-code data shape
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+self/subcortex/providers/src/grok-provider.ts
+
+A new grok-provider.ts file with the functions of invoke, stream, and getConfig
 
 ---
 
