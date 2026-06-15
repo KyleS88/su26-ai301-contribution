@@ -3,7 +3,7 @@
 **Contribution Number:** [1 / 2 / 3]  
 **Student:** Kyle Shi 
 **Issue:** [Link](https://github.com/orthogonalhq/nous-core/issues/302)
-**Status:** Phase I Complete
+**Status:** Phase 2 Complete
 
 ---
 
@@ -40,20 +40,15 @@ A new grok-provider.ts file with the functions of invoke, stream, and getConfig
 ## Reproduction Process
 
 ### Environment Setup
-
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+The process of setting up the dev dependencies was very straightforward. The only thing required was using pnpm to install them, though that meant I had to install the pnpm package itself first. Unexpectedly, there were no errors when installing the dev dependencies, however, setting up the repository presented several challenges. For one, we had a dedicated branch that the maintainer created for us, but I couldn't find it initially. When I checked my current Git configuration, I noticed it was pointing to my local fork rather than the remote view of the main repository. After adding the original repository as an upstream remote and fetching it, I was able to switch directly to the correct branch and start my work.
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+There is no bug to reproduce the goal of this issue is to develop a xAI adapter so data in nous-core shape can be sent to xAI and retrieved.
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+There is no bug to reproduce so this is N/A
 
 ---
 
@@ -61,31 +56,47 @@ A new grok-provider.ts file with the functions of invoke, stream, and getConfig
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+Although there is no root bug, the response shape that xAI follows mirrors OpenAI's structure. This allows me to utilize the existing template and architecture to create my version of the xAI adapter
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Create the invoke, stream, and getConfig functions by first defining the contracts so the automated script knows how to interact with xAI, then send and collect tokens via lazy streams.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** 
+We are creating an adapter for xAI so when a user types in a prompt it can be sent to their respective AI models, and retrieve the response back without breaking.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** 
+The OpenAI and Anthropic folders contain functions and implementations similar to what I will be developing.
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+**Plan:** 
+1. Fill in the contracts for definition.ts, adapter.ts, provider.ts, index.ts so the automated scripts knows the structure of the xAI schema as well as meta data needed to connect to the actual xAI api.
+2. Regenerate catalogs so the main script can access the adapter with a clean connecetion.
+4. Check for any type, lint, or any other errors with the given checks.
+5. Create test
 
-**Implement:** [Link to your branch/commits as you work]
+**Implement:** [[Link]](https://github.com/KyleS88/nous-core/tree/feat/contributor-friendly-inference-provider-surface)
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+**Review:** 
+1. I would check to make sure that my code is decoupled from the main engine and cortex ensuring that the scope of what my files have access are not accessing anything other then the edges(leafs). Also I will have a side by side reference of the anthropic template code to ensure that I am not missing anything important for the function.
+2. For testing I will make sure to pnpm test to ensure that 5 specific things work:model definitions, API key/credentials handling, provider setup, model picker, and the actual behavior of the invoke and stream functions.
+3. For commit I will make sure it follows the ```feat(subcortex): add xai model provider leaf``` structure.
 
-**Evaluate:** [How will you verify it works?]
-
+**Evaluate:**
+The following automated test will check if my new adapter follows the proper convetions as described by the CONTRIBUTION.md
+Testing functionality and type
+```
+pnpm --filter @nous/subcortex-providers run typecheck
+pnpm --filter @nous/subcortex-providers exec vitest run src/__tests__/provider-codegen.test.ts src/__tests__/public-exports.test.ts src/__tests__/provider-definitions src/__tests__/adapter-resolver.test.ts src/__tests__/provider-pipeline-integration.test.ts --config vitest.config.ts
+```
+Testing documentation
+```
+pnpm --filter docs lint
+pnpm --filter docs build
+```
 ---
 
 ## Testing Strategy
