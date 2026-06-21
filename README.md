@@ -128,9 +128,9 @@ pnpm --filter @nous/subcortex-providers exec vitest run src/__tests__/provider-c
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week 1 Progress
 
-[What you built this week, challenges faced, decisions made]
+I added xAi leaf, but the testing fails due to a strict testing and lax use of raw arrays to check for what protocols are needed. I commented this issue and I am still waiting for a response from the maintainer.
 
 ### Week [Y] Progress
 
