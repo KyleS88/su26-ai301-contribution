@@ -103,18 +103,26 @@ pnpm --filter docs build
 
 ### Unit Tests
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+- [ ] ProviderDefinitionSchema validates the xAI definition — covered by provider-definitions.test.ts
+- [ ] vendorKey, adapterKey, protocol, auth metadata, endpoint, and default model are correct — covered by provider-definitions.test.ts
+- [ ] wellKnownProviderId is derived from vendorKey, not hand-authored — covered by provider-definition-types.test.ts
+- [ ] Adapter resolves correctly for vendor: 'xai' — covered by adapter-resolver.test.ts
+- [ ] parseResponse returns fallback without throwing on malformed output — covered by provider-pipeline-integration.test.ts
 
 ### Integration Tests
 
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
+- [ ]  xAI provider registered and constructed correctly with env-var credentials — covered by provider-pipeline-integration.test.ts
+- [ ]  Missing XAI_API_KEY skips provider construction correctly — covered by provider-pipeline-integration.test.ts
+- [ ]  Generated catalogs include xAI leaf in deterministic order — covered by provider-codegen.test.ts
 
 ### Manual Testing
 
-[What you tested manually and results]
+There is no exact manual test, the maintainer has given us the following script to test our code 
+```
+pnpm --filter @nous/subcortex-providers run check:generated
+pnpm --filter @nous/subcortex-providers run typecheck
+pnpm --filter @nous/subcortex-providers exec vitest run src/__tests__/provider-codegen.test.ts src/__tests__/public-exports.test.ts src/__tests__/provider-definitions src/__tests__/adapter-resolver.test.ts src/__tests__/provider-pipeline-integration.test.ts --config vitest.config.ts
+```
 
 ---
 
