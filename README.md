@@ -3,7 +3,7 @@
 **Contribution Number:** [1 / 2 / 3]  
 **Student:** Kyle Shi 
 **Issue:** [Link](https://github.com/orthogonalhq/nous-core/issues/302)
-**Status:** Phase 2 Complete
+**Status:** Phase 3 Complete
 
 ---
 
