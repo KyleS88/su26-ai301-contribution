@@ -132,15 +132,39 @@ pnpm --filter @nous/subcortex-providers exec vitest run src/__tests__/provider-c
 
 I added xAi leaf, but the testing fails due to a strict testing and lax use of raw arrays to check for what protocols are needed. I commented this issue and I am still waiting for a response from the maintainer.
 
-### Week [Y] Progress
+### Week 2 Progress
+Built on top of week 1's progress given week 1 was still pending maintainer response.
+Built the four required leaf files (definition.ts, adapter.ts, provider.ts, index.ts). Key issues fixed along the way:
+
+Wrong type (ProviderDefinition → ProviderDefinitionLeaf)
+Hand-authored UUID removed — IDs are auto-derived from vendorKey
+Added fail-closed credential check after reading maintainer feedback on PR #398, preventing accidental OPENAI_API_KEY fallback
+
+Upstream added 9 new providers simultaneously from other contributors, resolved merge conflicts by re-running the generator for catalog files and manually merging test files. Updated hardcoded vendor lists across 5 existing test files to include xAI.
+Updated provider for leaf that calls on xAI fallback. Added manual xAI insertions into the designated test cases to ensure that all maintainer test includes xAI leaf node. 
 
 [Continue documenting as you work]
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **Files modified:** 
+- [ ]  self/subcortex/providers/src/providers/xai/definition.ts
+- [ ]  self/subcortex/providers/src/providers/xai/adapter.ts
+- [ ]  self/subcortex/providers/src/providers/xai/provider.ts
+- [ ]  self/subcortex/providers/src/providers/xai/index.ts
+- [ ]  src/provider-adapters.ts
+- [ ]  provider-definitions.ts
+- [ ]  provider-factories.ts
+- [ ]  src/__tests__/provider-codegen.test.ts
+- [ ]  src/__tests__/provider-definition-types.test.ts
+- [ ]  src/__tests__/provider-definitions/provider-definitions.test.ts
+- [ ]  src/__tests__/adapter-resolver.test.ts
+- [ ]  src/__tests__/provider-pipeline-integration.test.ts
+
+- **Key commits:** 
+feat(suub-cortex):Added xai leaf nodes
+- **Approach decisions:**
+Added a fall back on xai api because we currently don't have any connected apis so fall back will ensure that an ai model will be routed.
 
 ---
 
