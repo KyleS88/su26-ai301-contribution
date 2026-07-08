@@ -3,8 +3,7 @@
 **Contribution Number:** [1 / 2 / 3]  
 **Student:** Kyle Shi 
 **Issue:** [Link](https://github.com/orthogonalhq/nous-core/issues/302)
-**Status:** Phase 3 Complete
-
+**Status:** Phase 4 In Progress
 ---
 
 ## Why I Chose This Issue
@@ -143,7 +142,10 @@ Added fail-closed credential check after reading maintainer feedback on PR #398,
 Upstream added 9 new providers simultaneously from other contributors, resolved merge conflicts by re-running the generator for catalog files and manually merging test files. Updated hardcoded vendor lists across 5 existing test files to include xAI.
 Updated provider for leaf that calls on xAI fallback. Added manual xAI insertions into the designated test cases to ensure that all maintainer test includes xAI leaf node. 
 
-[Continue documenting as you work]
+### Week 3 Final
+Updated xAI model to latest Grok 4.3
+Implemented manual end-to-end test for registry registration, definition hydration, schema validation, auth contract, adapter parsing, and factory security boundaries
+Submitted PR #1
 
 ### Code Changes
 
@@ -160,9 +162,10 @@ Updated provider for leaf that calls on xAI fallback. Added manual xAI insertion
 - [ ]  src/__tests__/provider-definitions/provider-definitions.test.ts
 - [ ]  src/__tests__/adapter-resolver.test.ts
 - [ ]  src/__tests__/provider-pipeline-integration.test.ts
+- [ ]  src/__tests__/providers/xai.test.ts
 
 - **Key commits:** 
-feat(suub-cortex):Added xai leaf nodes
+feat(sub-cortex):Added xai leaf nodes
 - **Approach decisions:**
 Added a fall back on xai api because we currently don't have any connected apis so fall back will ensure that an ai model will be routed.
 
@@ -170,9 +173,50 @@ Added a fall back on xai api because we currently don't have any connected apis 
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** [[GitHub PR URL when submitted]](https://github.com/orthogonalhq/nous-core/pull/424)
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:** 
+## Summary
+Add xAI Grok as a provider leaf under the current provider-leaf contract (issue #302). Reuses the shared OpenAI-compatible Chat Completions protocol, thus no custom implementation.ts needed. Includes fail-closed credential handling so the factory never falls back to OPENAI_API_KEY when XAI_API_KEY is absent.
+
+## Linked Issue
+Closes #302 
+
+## Changes
+- Add `self/subcortex/providers/src/providers/xai/` leaf: `definition.ts`, `adapter.ts`, `provider.ts`, `index.ts`
+- Definition uses `ProviderDefinitionLeaf` (metadata only); built-in id derives from `vendorKey`, no hand-authored `wellKnownProviderId``
+- Reuse shared `chat-completions` protocol
+- Factory resolves `XAI_API_KEY` explicitly and fails closed rather than passing `undefined` downstream
+- Regenerate provider catalogs (`provider-definitions`, `provider-adapters`, `provider-factories`)
+- Update registry-wide test expectations to include the `xai` vendor
+- Add `__tests__/providers/xai.test.ts` covering registry registration, definition hydration, schema validation, auth contract, adapter parsing, and factory security boundaries
+- Set default xAI Grok model to grok-4.3
+
+## Verification
+- [x] Tests pass (`pnpm test`)
+- [x] Lint passes (`pnpm lint`)
+- [x] Typecheck passes (`pnpm typecheck`)
+- [x] Build passes (`pnpm build`)
+- [x] Manually ran the change end-to-end and confirmed it behaves as described
+
+### Manual behavior check
+
+Ran the full provider test suite confirming xAI is correctly discovered, registered, and integrated end-to-end through the real `ProviderRegistry`:
+
+```
+pnpm --filter @nous/subcortex-providers exec vitest run src/__tests__/provider-codegen.test.ts src/__tests__/public-exports.test.ts src/__tests__/provider-definitions src/__tests__/adapter-resolver.test.ts src/__tests__/provider-pipeline-integration.test.ts src/__tests__/providers/xai.test.ts --config vitest.config.ts
+```
+<img width="1402" height="299" alt="image" src="https://github.com/user-attachments/assets/91cd6664-5677-4bca-ba06-efbe84d788ae" />
+<img width="1183" height="37" alt="image" src="https://github.com/user-attachments/assets/c8faaede-3423-473b-98cb-8d1e39f08b63" />
+<img width="1798" height="256" alt="image" src="https://github.com/user-attachments/assets/d0aaaa9b-2a39-4fb9-990d-efc384fb3db6" />
+
+`Note: Live end-to-end invoke test not included — no xAI API key available, consistent with other provider leaf reviews where the maintainer also noted they could not run live tests without the provider's API key.`
+
+## Checklist
+- [x] Branch follows flow: targets feat/contributor-friendly-inference-provider-surface per maintainer note on issue #302)
+- [x] Commits follow [Conventional Commits](https://www.conventionalcommits.org/)
+- [x] Docs updated if behavior changed (or N/A)
+
 
 **Maintainer Feedback:**
 - [Date]: [Summary of feedback received]
