@@ -173,7 +173,7 @@ Added a fall back on xai api because we currently don't have any connected apis 
 
 ## Pull Request
 
-**PR Link:** [[GitHub PR URL when submitted]](https://github.com/orthogonalhq/nous-core/pull/424)
+**PR Link:** [[Link to PR]](https://github.com/orthogonalhq/nous-core/pull/424)
 
 **PR Description:** 
 ## Summary
