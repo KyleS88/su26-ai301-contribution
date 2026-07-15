@@ -219,10 +219,16 @@ pnpm --filter @nous/subcortex-providers exec vitest run src/__tests__/provider-c
 
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- July 8, 2026: 
+The implementation looks good overall, but there is a bug causing xAI API requests to use incorrect URLs with a duplicated /v1. Fix the endpoint configuration so chat completions and model listing use the correct URLs. Also retarget the PR from main to feat/contributor-friendly-inference-provider-surface. There are a few trailing whitespace issues that should be cleaned up as well.
+- July 14, 2026:
+  I addressed this by doing the following
+[x] Updated definition.ts to use https://api.x.ai (removed /v1) to eliminate doubled paths
+[x] Updated test expectations in provider-definitions.test.ts to match
+[x] Fixed trailing whitespace
+[x] Retargeted PR to feat/contributor-friendly-inference-provider-surface
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** Iterating
 
 ---
 
@@ -230,20 +236,27 @@ pnpm --filter @nous/subcortex-providers exec vitest run src/__tests__/provider-c
 
 ### Technical Skills Gained
 
-[What you learned technically]
+- Able to read large code base and understand
+- Write test both unit and intergration
+- Understand how we can use automation scripts to update central catalogs
+- Archetectural strategies use to make a code base more robust and modular
+- Learn how to fix merged conflicts
+- Analyze and understand other people's code
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+The hardest part was understanding what I needed to change manually. Although there weren't many details regarding manaul updates to test files and specific code I was able to utilize other peoples code to match off, and thus guide my approach when developing this new adapter.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+My current process started with me just diving into the code base after a brief review. Although implementing wasn't challenging by any means I had a hard time understand what else besides the adapter I needed to change, what test I needed, and how to use that test to what I need to change. Rather next time in addition to reviewing I would also use other people's PR to try to understand their approach that got their code merged, as well as asking more questions to the maintainers.
 
 ---
 
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- (https://docs.nue.orthg.nl/docs/development/provider-adapters/quickstart
+- https://docs.nue.orthg.nl/docs/development/provider-adapters/provider-leaf-anatomy
+- https://docs.nue.orthg.nl/docs/development/provider-adapters/schemas-abi-reference)
+- https://github.com/orthogonalhq/nous-core/issues/308
+- https://github.com/orthogonalhq/nous-core/issues/305
